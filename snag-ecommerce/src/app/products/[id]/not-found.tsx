@@ -8,7 +8,7 @@ export default function NotFound() {
                               Product Not Found
                                       </h2>
                                               <p className="mb-8 text-gray-600">
-                                                        Sorry, we couldn't find the product you're looking for.
+                                                        Sorry, we couldn&apos;t find the product you&apos;re looking for.
                                                                 </p>
                                                                         <Link
                                                                                   href="/"

@@ -6,10 +6,11 @@ import { AddToCartButton } from "~/app/_components/AddToCartButton";
 export default async function ProductPage({
      params,
 }: {
-    params: { id: string};
+    params: Promise<{ id: string}>;
 })
 {
-     const product = await api.product.getById({ id: params.id})
+     const { id } = await params
+     const product = await api.product.getById({ id })
 
 
     if (!product) {
