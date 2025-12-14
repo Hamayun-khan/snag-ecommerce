@@ -15,12 +15,10 @@ type Product = {
 };
 
 export function AddToCartButton({ product }: { product: Product }) {
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
-    setIsAdding(true);
-
     addItem({
       id: product.id,
       name: product.name,
@@ -28,6 +26,7 @@ export function AddToCartButton({ product }: { product: Product }) {
       imageUrl: product.imageUrl,
     });
 
+    setIsAdded(true);
     toast.success(`${product.name} added!`, {
       description: `Price: $${product.price.toFixed(2)} • View in cart`,
       duration: 3000,
@@ -39,7 +38,9 @@ export function AddToCartButton({ product }: { product: Product }) {
       },
     });
 
-    setTimeout(() => setIsAdding(false), 1500);
+    // Reset after 1.5 seconds
+    const timer = setTimeout(() => setIsAdded(false), 1500);
+    return () => clearTimeout(timer);
   };
 
   if (!product.inStock) {
@@ -53,10 +54,10 @@ export function AddToCartButton({ product }: { product: Product }) {
   return (
     <Button
       onClick={handleAddToCart}
-      disabled={isAdding}
+      disabled={isAdded}
       className="btn-primary w-full gap-2 text-lg disabled:opacity-70"
     >
-      {isAdding ? (
+      {isAdded ? (
         <>
           <Check className="h-5 w-5" />
           <span>Added!</span>

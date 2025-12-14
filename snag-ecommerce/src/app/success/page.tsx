@@ -52,7 +52,7 @@ export default function SuccessPage() {
           Order Not Found
         </h2>
         <p className="mb-8 text-muted-foreground">
-          We couldn't find your order details. Please check your email.
+          We couldn&apos;t find your order details. Please check your email.
         </p>
         <Button asChild className="btn-primary">
           <Link href="/">Back to Shop</Link>
@@ -201,7 +201,7 @@ export default function SuccessPage() {
               <div>
                 <p className="font-semibold text-foreground">Shipping Updates</p>
                 <p className="text-sm text-muted-foreground">
-                  We'll send tracking information once your order ships
+                  We&apos;ll send tracking information once your order ships
                 </p>
               </div>
             </div>

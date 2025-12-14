@@ -14,14 +14,12 @@ type Product = {
 };
 
 export function QuickAddButton({ product }: { product: Product }) {
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    setIsAdding(true);
 
     addItem({
       id: product.id,
@@ -30,23 +28,26 @@ export function QuickAddButton({ product }: { product: Product }) {
       imageUrl: product.imageUrl,
     });
 
+    setIsAdded(true);
     toast.success(`${product.name} added to cart!`, {
       description: `Price: $${product.price.toFixed(2)}`,
       duration: 2000,
     });
 
-    setTimeout(() => {
-      setIsAdding(false);
+    // Reset after 1.5 seconds
+    const timer = setTimeout(() => {
+      setIsAdded(false);
     }, 1500);
+    return () => clearTimeout(timer);
   };
 
   return (
     <Button
       onClick={handleClick}
-      disabled={isAdding}
+      disabled={isAdded}
       className="btn-primary w-full gap-2 disabled:opacity-70"
     >
-      {isAdding ? (
+      {isAdded ? (
         <>
           <Check className="h-5 w-5" />
           <span>Added!</span>

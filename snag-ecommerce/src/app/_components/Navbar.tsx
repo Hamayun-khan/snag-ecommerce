@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { ShoppingCart, Package } from "lucide-react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useCartStore } from "~/lib/store/cartStore";
 
-export function Navbar() {
+const CartBadge = memo(function CartBadge() {
   const [mounted, setMounted] = useState(false);
   const totalItems = useCartStore((state) => state.getTotalItems());
 
@@ -13,6 +13,16 @@ export function Navbar() {
     setMounted(true);
   }, []);
 
+  if (!mounted || totalItems === 0) return null;
+
+  return (
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold text-primary">
+      {totalItems}
+    </span>
+  );
+});
+
+export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6">
@@ -40,11 +50,7 @@ export function Navbar() {
             <Link href="/cart" className="flex items-center gap-2">
               <ShoppingCart className="h-5 w-5" />
               <span className="hidden sm:inline">Cart</span>
-              {mounted && totalItems > 0 && (
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold text-primary">
-                  {totalItems}
-                </span>
-              )}
+              <CartBadge />
             </Link>
           </Button>
         </div>
