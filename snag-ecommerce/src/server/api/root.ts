@@ -1,4 +1,3 @@
-
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { productRouter } from "./routers/product";
 import { orderRouter } from "./routers/order";

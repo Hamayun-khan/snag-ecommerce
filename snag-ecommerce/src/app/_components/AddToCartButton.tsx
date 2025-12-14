@@ -1,50 +1,72 @@
 "use client";
 
+import { Check, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { Button } from "~/components/ui/button";
 import { useCartStore } from "~/lib/store/cartStore";
+import { toast } from "sonner";
 
 type Product = {
   id: string;
-    name: string;
-      price: number;
-        imageUrl: string;
-          inStock: boolean;
-          };
+  name: string;
+  price: number;
+  imageUrl: string;
+  inStock: boolean;
+};
 
-          export function AddToCartButton({ product }: { product: Product }) {
-            const [added, setAdded] = useState(false);
-              const addItem = useCartStore((state) => state.addItem);
+export function AddToCartButton({ product }: { product: Product }) {
+  const [isAdding, setIsAdding] = useState(false);
+  const addItem = useCartStore((state) => state.addItem);
 
-                const handleAddToCart = () => {
-                    addItem({
-                          id: product.id,
-                                name: product.name,
-                                      price: product.price,
-                                            imageUrl: product.imageUrl,
-                                                });
+  const handleAddToCart = () => {
+    setIsAdding(true);
 
-                                                    // Show success feedback
-                                                        setAdded(true);
-                                                            setTimeout(() => setAdded(false), 2000);
-                                                              };
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    });
 
-                                                                if (!product.inStock) {
-                                                                    return (
-                                                                          <button
-                                                                                  disabled
-                                                                                          className="w-full cursor-not-allowed rounded-lg bg-gray-400 px-8 py-4 text-lg font-semibold text-white"
-                                                                                                >
-                                                                                                        Out of Stock
-                                                                                                              </button>
-                                                                                                                  );
-                                                                                                                    }
+    toast.success(`${product.name} added!`, {
+      description: `Price: $${product.price.toFixed(2)} • View in cart`,
+      duration: 3000,
+      action: {
+        label: "View Cart",
+        onClick: () => {
+          window.location.href = "/cart";
+        },
+      },
+    });
 
-                                                                                                                      return (
-                                                                                                                          <button
-                                                                                                                                onClick={handleAddToCart}
-                                                                                                                                      className="w-full rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-blue-700 active:scale-95"
-                                                                                                                                          >
-                                                                                                                                                {added ? "✓ Added to Cart!" : "Add to Cart"}
-                                                                                                                                                    </button>
-                                                                                                                                                      );
-                                                                                                                                                      }
+    setTimeout(() => setIsAdding(false), 1500);
+  };
+
+  if (!product.inStock) {
+    return (
+      <Button disabled className="btn-primary w-full opacity-50">
+        Out of Stock
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      onClick={handleAddToCart}
+      disabled={isAdding}
+      className="btn-primary w-full gap-2 text-lg disabled:opacity-70"
+    >
+      {isAdding ? (
+        <>
+          <Check className="h-5 w-5" />
+          <span>Added!</span>
+        </>
+      ) : (
+        <>
+          <ShoppingCart className="h-5 w-5" />
+          <span>Add to Cart</span>
+        </>
+      )}
+    </Button>
+  );
+}

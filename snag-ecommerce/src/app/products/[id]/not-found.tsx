@@ -1,22 +1,23 @@
 import Link from "next/link";
+import { Button } from "~/components/ui/button";
 
 export default function NotFound() {
   return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-            <div className="text-center">
-                    <h2 className="mb-4 text-4xl font-bold text-gray-900">
-                              Product Not Found
-                                      </h2>
-                                              <p className="mb-8 text-gray-600">
-                                                        Sorry, we couldn&apos;t find the product you&apos;re looking for.
-                                                                </p>
-                                                                        <Link
-                                                                                  href="/"
-                                                                                            className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
-                                                                                                    >
-                                                                                                             &larr; Back to Products
-                                                                                                                      </Link>
-                                                                                                                            </div>
-                                                                                                                                </div>
-                                                                                                                                  );
-                                                                                                                                  }
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <h2 className="mb-4 text-4xl font-bold text-gray-900">
+          Product Not Found
+        </h2>
+        <p className="mb-8 text-gray-600">
+          Sorry, we couldn&apos;t find the product you&apos;re looking for.
+        </p>
+        <Button
+          asChild
+          className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
+        >
+          <Link href="/">← Back to Products</Link>
+        </Button>
+      </div>
+    </div>
+  );
+}
