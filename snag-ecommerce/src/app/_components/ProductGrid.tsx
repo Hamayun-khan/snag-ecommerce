@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Star } from "lucide-react";
 import { memo } from "react";
 import type { Product } from "../../../generated/prisma";
 import { QuickAddButton } from "./quickAddButton";
@@ -52,12 +51,7 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
             <p className="text-2xl font-bold text-primary">
               ${product.price.toFixed(2)}
             </p>
-            <div className="mt-1 flex items-center gap-1">
-              <Star className="h-4 w-4 fill-warning text-warning" />
-              <span className="text-xs text-muted-foreground">
-                4.5/5
-              </span>
-            </div>
+          
           </div>
           <div onClick={(e) => e.preventDefault()}>
             <QuickAddButton product={product} />

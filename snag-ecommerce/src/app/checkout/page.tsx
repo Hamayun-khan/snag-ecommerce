@@ -31,6 +31,7 @@ export default function CheckoutPage() {
   const { items, getTotalPrice } = useCartStore();
   const [isLoading, setIsLoading] = useState(false);
 
+
   const createCheckout = api.order.createCheckoutSession.useMutation({
     onSuccess: (data) => {
       if (data.url) {
@@ -116,9 +117,11 @@ export default function CheckoutPage() {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Checkout Form */}
           {isLoading || createCheckout.isPending ? (
-            <CheckoutFormSkeleton />
-          ) : (
-            <div className="space-y-6 lg:col-span-2">
+                        <div className="space-y-6 lg:col-span-2">
+                                      <CheckoutFormSkeleton />
+                                                  </div>
+                                                            ) : (
+                                                                        <div className="space-y-6 lg:col-span-2">
               <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(handleSubmit)}>
                   <CheckoutContactSection />
