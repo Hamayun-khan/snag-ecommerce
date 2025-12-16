@@ -144,8 +144,10 @@ exports.Prisma.OrderScalarFieldEnum = {
   totalAmount: 'totalAmount',
   status: 'status',
   stripeSessionId: 'stripeSessionId',
+  stripePaymentId: 'stripePaymentId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paidAt: 'paidAt'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {
@@ -171,7 +173,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  DISPUTED: 'DISPUTED'
+};
 
 exports.Prisma.ModelName = {
   Product: 'Product',

@@ -22,10 +22,13 @@ model Product {
   inStock     Boolean     @default(true)
   createdAt   DateTime    @default(now())
   orderItems  OrderItem[]
+
+  @@index([category])
+  @@index([inStock])
 }
 
 model Order {
-  id              String      @id @default(cuid())
+  id              String @id @default(cuid())
   email           String
   customerName    String
   shippingAddress String
@@ -33,11 +36,28 @@ model Order {
   postalCode      String
   country         String
   totalAmount     Float
-  status          String      @default("pending") // pending, paid, shipped, delivered
-  stripeSessionId String?     @unique
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  items           OrderItem[]
+
+  // ENUM for type safety - matches your webhook handler
+  status OrderStatus @default(PENDING)
+
+  // Stripe fields - BOTH are needed for your webhooks
+  stripeSessionId String? @unique // From checkout.session events
+  stripePaymentId String? // From payment_intent events
+
+  // Timestamps for tracking
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  paidAt    DateTime? // When payment completed
+
+  // Relationships
+  items OrderItem[]
+
+  // Indexes for performance
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+  @@index([stripeSessionId])
+  @@index([stripePaymentId])
 }
 
 model OrderItem {
@@ -52,4 +72,15 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+// MUST match the status values in your webhook handler
+enum OrderStatus {
+  PENDING // Default when created
+  PAID // checkout.session.completed
+  FAILED // checkout.session.async_payment_failed
+  EXPIRED // checkout.session.expired
+  CANCELLED // Manual cancellation
+  REFUNDED // charge.refunded
+  DISPUTED // charge.dispute.created
 }

@@ -116,8 +116,10 @@ exports.Prisma.OrderScalarFieldEnum = {
   totalAmount: 'totalAmount',
   status: 'status',
   stripeSessionId: 'stripeSessionId',
+  stripePaymentId: 'stripePaymentId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paidAt: 'paidAt'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {
@@ -143,7 +145,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  DISPUTED: 'DISPUTED'
+};
 
 exports.Prisma.ModelName = {
   Product: 'Product',
@@ -189,7 +199,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -198,13 +207,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Product {\n  id          String      @id @default(cuid())\n  name        String\n  price       Float\n  imageUrl    String\n  description String\n  category    String\n  stock       Int         @default(10)\n  inStock     Boolean     @default(true)\n  createdAt   DateTime    @default(now())\n  orderItems  OrderItem[]\n}\n\nmodel Order {\n  id              String      @id @default(cuid())\n  email           String\n  customerName    String\n  shippingAddress String\n  city            String\n  postalCode      String\n  country         String\n  totalAmount     Float\n  status          String      @default(\"pending\") // pending, paid, shipped, delivered\n  stripeSessionId String?     @unique\n  createdAt       DateTime    @default(now())\n  updatedAt       DateTime    @updatedAt\n  items           OrderItem[]\n}\n\nmodel OrderItem {\n  id        String  @id @default(cuid())\n  orderId   String\n  productId String\n  name      String\n  price     Float\n  quantity  Int\n  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)\n  product   Product @relation(fields: [productId], references: [id])\n\n  @@index([orderId])\n  @@index([productId])\n}\n",
-  "inlineSchemaHash": "5675020b3d2deaaab6019f163874c33949b64d37ff9e40a64a8f1346a77d2cbc",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Product {\n  id          String      @id @default(cuid())\n  name        String\n  price       Float\n  imageUrl    String\n  description String\n  category    String\n  stock       Int         @default(10)\n  inStock     Boolean     @default(true)\n  createdAt   DateTime    @default(now())\n  orderItems  OrderItem[]\n\n  @@index([category])\n  @@index([inStock])\n}\n\nmodel Order {\n  id              String @id @default(cuid())\n  email           String\n  customerName    String\n  shippingAddress String\n  city            String\n  postalCode      String\n  country         String\n  totalAmount     Float\n\n  // ENUM for type safety - matches your webhook handler\n  status OrderStatus @default(PENDING)\n\n  // Stripe fields - BOTH are needed for your webhooks\n  stripeSessionId String? @unique // From checkout.session events\n  stripePaymentId String? // From payment_intent events\n\n  // Timestamps for tracking\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  paidAt    DateTime? // When payment completed\n\n  // Relationships\n  items OrderItem[]\n\n  // Indexes for performance\n  @@index([email])\n  @@index([status])\n  @@index([createdAt])\n  @@index([stripeSessionId])\n  @@index([stripePaymentId])\n}\n\nmodel OrderItem {\n  id        String  @id @default(cuid())\n  orderId   String\n  productId String\n  name      String\n  price     Float\n  quantity  Int\n  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)\n  product   Product @relation(fields: [productId], references: [id])\n\n  @@index([orderId])\n  @@index([productId])\n}\n\n// MUST match the status values in your webhook handler\nenum OrderStatus {\n  PENDING // Default when created\n  PAID // checkout.session.completed\n  FAILED // checkout.session.async_payment_failed\n  EXPIRED // checkout.session.expired\n  CANCELLED // Manual cancellation\n  REFUNDED // charge.refunded\n  DISPUTED // charge.dispute.created\n}\n",
+  "inlineSchemaHash": "d8bb5318e46a03375478f3da3d8fafb7e7614e1595dc7dccb20b859ae68fa10e",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"inStock\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"orderItems\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customerName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shippingAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postalCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalAmount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stripeSessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderToOrderItem\"}],\"dbName\":null},\"OrderItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"order\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToOrderItem\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"inStock\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"orderItems\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customerName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shippingAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postalCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalAmount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"OrderStatus\"},{\"name\":\"stripeSessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stripePaymentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"paidAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderToOrderItem\"}],\"dbName\":null},\"OrderItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"order\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToOrderItem\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

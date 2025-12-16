@@ -30,6 +30,28 @@ export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
 export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const OrderStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  DISPUTED: 'DISPUTED'
+};
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+}
+
+export type OrderStatus = $Enums.OrderStatus
+
+export const OrderStatus: typeof $Enums.OrderStatus
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -2293,10 +2315,12 @@ export namespace Prisma {
     postalCode: string | null
     country: string | null
     totalAmount: number | null
-    status: string | null
+    status: $Enums.OrderStatus | null
     stripeSessionId: string | null
+    stripePaymentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    paidAt: Date | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -2308,10 +2332,12 @@ export namespace Prisma {
     postalCode: string | null
     country: string | null
     totalAmount: number | null
-    status: string | null
+    status: $Enums.OrderStatus | null
     stripeSessionId: string | null
+    stripePaymentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    paidAt: Date | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -2325,8 +2351,10 @@ export namespace Prisma {
     totalAmount: number
     status: number
     stripeSessionId: number
+    stripePaymentId: number
     createdAt: number
     updatedAt: number
+    paidAt: number
     _all: number
   }
 
@@ -2350,8 +2378,10 @@ export namespace Prisma {
     totalAmount?: true
     status?: true
     stripeSessionId?: true
+    stripePaymentId?: true
     createdAt?: true
     updatedAt?: true
+    paidAt?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -2365,8 +2395,10 @@ export namespace Prisma {
     totalAmount?: true
     status?: true
     stripeSessionId?: true
+    stripePaymentId?: true
     createdAt?: true
     updatedAt?: true
+    paidAt?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -2380,8 +2412,10 @@ export namespace Prisma {
     totalAmount?: true
     status?: true
     stripeSessionId?: true
+    stripePaymentId?: true
     createdAt?: true
     updatedAt?: true
+    paidAt?: true
     _all?: true
   }
 
@@ -2480,10 +2514,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status: string
+    status: $Enums.OrderStatus
     stripeSessionId: string | null
+    stripePaymentId: string | null
     createdAt: Date
     updatedAt: Date
+    paidAt: Date | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -2516,8 +2552,10 @@ export namespace Prisma {
     totalAmount?: boolean
     status?: boolean
     stripeSessionId?: boolean
+    stripePaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    paidAt?: boolean
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
@@ -2533,8 +2571,10 @@ export namespace Prisma {
     totalAmount?: boolean
     status?: boolean
     stripeSessionId?: boolean
+    stripePaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    paidAt?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2548,8 +2588,10 @@ export namespace Prisma {
     totalAmount?: boolean
     status?: boolean
     stripeSessionId?: boolean
+    stripePaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    paidAt?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -2563,11 +2605,13 @@ export namespace Prisma {
     totalAmount?: boolean
     status?: boolean
     stripeSessionId?: boolean
+    stripePaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    paidAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "customerName" | "shippingAddress" | "city" | "postalCode" | "country" | "totalAmount" | "status" | "stripeSessionId" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "customerName" | "shippingAddress" | "city" | "postalCode" | "country" | "totalAmount" | "status" | "stripeSessionId" | "stripePaymentId" | "createdAt" | "updatedAt" | "paidAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -2589,10 +2633,12 @@ export namespace Prisma {
       postalCode: string
       country: string
       totalAmount: number
-      status: string
+      status: $Enums.OrderStatus
       stripeSessionId: string | null
+      stripePaymentId: string | null
       createdAt: Date
       updatedAt: Date
+      paidAt: Date | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -3025,10 +3071,12 @@ export namespace Prisma {
     readonly postalCode: FieldRef<"Order", 'String'>
     readonly country: FieldRef<"Order", 'String'>
     readonly totalAmount: FieldRef<"Order", 'Float'>
-    readonly status: FieldRef<"Order", 'String'>
+    readonly status: FieldRef<"Order", 'OrderStatus'>
     readonly stripeSessionId: FieldRef<"Order", 'String'>
+    readonly stripePaymentId: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
+    readonly paidAt: FieldRef<"Order", 'DateTime'>
   }
     
 
@@ -4616,8 +4664,10 @@ export namespace Prisma {
     totalAmount: 'totalAmount',
     status: 'status',
     stripeSessionId: 'stripeSessionId',
+    stripePaymentId: 'stripePaymentId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    paidAt: 'paidAt'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -4725,6 +4775,20 @@ export namespace Prisma {
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
+
+
+  /**
+   * Reference to a field of type 'OrderStatus'
+   */
+  export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderStatus[]'
+   */
+  export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -4819,10 +4883,12 @@ export namespace Prisma {
     postalCode?: StringFilter<"Order"> | string
     country?: StringFilter<"Order"> | string
     totalAmount?: FloatFilter<"Order"> | number
-    status?: StringFilter<"Order"> | string
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     stripeSessionId?: StringNullableFilter<"Order"> | string | null
+    stripePaymentId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     items?: OrderItemListRelationFilter
   }
 
@@ -4837,8 +4903,10 @@ export namespace Prisma {
     totalAmount?: SortOrder
     status?: SortOrder
     stripeSessionId?: SortOrderInput | SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
     items?: OrderItemOrderByRelationAggregateInput
   }
 
@@ -4855,9 +4923,11 @@ export namespace Prisma {
     postalCode?: StringFilter<"Order"> | string
     country?: StringFilter<"Order"> | string
     totalAmount?: FloatFilter<"Order"> | number
-    status?: StringFilter<"Order"> | string
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    stripePaymentId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     items?: OrderItemListRelationFilter
   }, "id" | "stripeSessionId">
 
@@ -4872,8 +4942,10 @@ export namespace Prisma {
     totalAmount?: SortOrder
     status?: SortOrder
     stripeSessionId?: SortOrderInput | SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -4893,10 +4965,12 @@ export namespace Prisma {
     postalCode?: StringWithAggregatesFilter<"Order"> | string
     country?: StringWithAggregatesFilter<"Order"> | string
     totalAmount?: FloatWithAggregatesFilter<"Order"> | number
-    status?: StringWithAggregatesFilter<"Order"> | string
+    status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     stripeSessionId?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    stripePaymentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   }
 
   export type OrderItemWhereInput = {
@@ -5061,10 +5135,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status?: string
+    status?: $Enums.OrderStatus
     stripeSessionId?: string | null
+    stripePaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    paidAt?: Date | string | null
     items?: OrderItemCreateNestedManyWithoutOrderInput
   }
 
@@ -5077,10 +5153,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status?: string
+    status?: $Enums.OrderStatus
     stripeSessionId?: string | null
+    stripePaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    paidAt?: Date | string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -5093,10 +5171,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: OrderItemUpdateManyWithoutOrderNestedInput
   }
 
@@ -5109,10 +5189,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -5125,10 +5207,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status?: string
+    status?: $Enums.OrderStatus
     stripeSessionId?: string | null
+    stripePaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    paidAt?: Date | string | null
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -5140,10 +5224,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -5155,10 +5241,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderItemCreateInput = {
@@ -5403,6 +5491,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -5416,6 +5511,17 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type SortOrderInput = {
@@ -5434,8 +5540,10 @@ export namespace Prisma {
     totalAmount?: SortOrder
     status?: SortOrder
     stripeSessionId?: SortOrder
+    stripePaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    paidAt?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -5453,8 +5561,10 @@ export namespace Prisma {
     totalAmount?: SortOrder
     status?: SortOrder
     stripeSessionId?: SortOrder
+    stripePaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    paidAt?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -5468,12 +5578,24 @@ export namespace Prisma {
     totalAmount?: SortOrder
     status?: SortOrder
     stripeSessionId?: SortOrder
+    stripePaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    paidAt?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
     totalAmount?: SortOrder
+  }
+
+  export type EnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5492,6 +5614,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type OrderScalarRelationFilter = {
@@ -5625,8 +5761,16 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
+  export type EnumOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.OrderStatus
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type OrderItemUpdateManyWithoutOrderNestedInput = {
@@ -5808,6 +5952,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -5820,6 +5971,27 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5848,6 +6020,20 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type OrderItemCreateWithoutProductInput = {
@@ -5955,10 +6141,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status?: string
+    status?: $Enums.OrderStatus
     stripeSessionId?: string | null
+    stripePaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    paidAt?: Date | string | null
   }
 
   export type OrderUncheckedCreateWithoutItemsInput = {
@@ -5970,10 +6158,12 @@ export namespace Prisma {
     postalCode: string
     country: string
     totalAmount: number
-    status?: string
+    status?: $Enums.OrderStatus
     stripeSessionId?: string | null
+    stripePaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    paidAt?: Date | string | null
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -6030,10 +6220,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -6045,10 +6237,12 @@ export namespace Prisma {
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     totalAmount?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     stripeSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProductUpsertWithoutOrderItemsInput = {
