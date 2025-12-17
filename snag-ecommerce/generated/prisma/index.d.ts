@@ -4913,6 +4913,7 @@ export namespace Prisma {
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     stripeSessionId?: string
+    stripePaymentId?: string
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
@@ -4924,12 +4925,11 @@ export namespace Prisma {
     country?: StringFilter<"Order"> | string
     totalAmount?: FloatFilter<"Order"> | number
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    stripePaymentId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     items?: OrderItemListRelationFilter
-  }, "id" | "stripeSessionId">
+  }, "id" | "stripeSessionId" | "stripePaymentId">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder

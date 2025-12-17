@@ -42,7 +42,7 @@ model Order {
 
   // Stripe fields - BOTH are needed for your webhooks
   stripeSessionId String? @unique // From checkout.session events
-  stripePaymentId String? // From payment_intent events
+  stripePaymentId String? @unique // From payment_intent events
 
   // Timestamps for tracking
   createdAt DateTime  @default(now())
