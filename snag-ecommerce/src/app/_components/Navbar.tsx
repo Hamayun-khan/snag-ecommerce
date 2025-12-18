@@ -24,7 +24,6 @@ const CartBadge = memo(function CartBadge() {
 });
 
 export function Navbar() {
-
   return (
     <nav className="border-border/40 bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6">
@@ -46,10 +45,10 @@ export function Navbar() {
           </Button>
 
           <SignedIn>
-                        <Button asChild variant="ghost" className="text-foreground">
-                                      <Link href="/orders">My Orders</Link>
-                                                  </Button>
-                                                            </SignedIn>
+            <Button asChild variant="ghost" className="text-foreground">
+              <Link href="/orders">My Orders</Link>
+            </Button>
+          </SignedIn>
 
           <Button
             asChild
@@ -62,20 +61,19 @@ export function Navbar() {
             </Link>
           </Button>
 
-{/* Auth Buttons */}
+          {/* Auth Buttons */}
           <SignedOut>
-                      <SignInButton mode="modal">
-                                    <Button variant="ghost" size="sm">
-                                                    <User className="mr-2 h-4 w-4" />
-                                                                    Sign In
-                                                                                  </Button>
-                                                                                              </SignInButton>
-                                                                                                        </SignedOut>
+            <SignInButton mode="modal">
+              <Button variant="ghost" size="sm">
+                <User className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+            </SignInButton>
+          </SignedOut>
 
-                                                                                                                  <SignedIn>
-                                                                                                                              <UserButton afterSignOutUrl="/" />
-                                                                                                                                        </SignedIn>
-
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
         </div>
       </div>
     </nav>

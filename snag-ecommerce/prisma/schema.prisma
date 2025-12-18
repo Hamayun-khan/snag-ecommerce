@@ -35,7 +35,7 @@ model User {
                         stripeCustomerId  String?   @unique // Link to Stripe customer
                             createdAt         DateTime  @default(now())
                                 updatedAt         DateTime  @updatedAt
-                                    
+                                    deletedAt        DateTime?
                                         // Relationships
                                             orders            Order[]
                                                 
