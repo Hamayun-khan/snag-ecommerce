@@ -11,7 +11,7 @@ export function CheckoutSubmitButton({ isLoading }: CheckoutSubmitButtonProps) {
     <button
       type="submit"
       disabled={isLoading}
-      className="btn-primary mt-8 w-full gap-2 py-4 text-lg disabled:opacity-50 flex items-center justify-center"
+      className="btn-primary mt-8 flex w-full items-center justify-center gap-2 py-4 text-lg disabled:opacity-50"
     >
       {isLoading ? (
         <>

@@ -16,7 +16,7 @@ const CartBadge = memo(function CartBadge() {
   if (!mounted || totalItems === 0) return null;
 
   return (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold text-primary">
+    <span className="text-primary inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold">
       {totalItems}
     </span>
   );
@@ -24,15 +24,15 @@ const CartBadge = memo(function CartBadge() {
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
+    <nav className="border-border/40 bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-80"
+          className="text-foreground flex items-center gap-2 font-bold transition-opacity hover:opacity-80"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80">
-            <Package className="h-6 w-6 text-primary-foreground" />
+          <div className="from-primary to-primary/80 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br">
+            <Package className="text-primary-foreground h-6 w-6" />
           </div>
           <span className="text-xl">snag</span>
         </Link>
@@ -45,7 +45,7 @@ export function Navbar() {
 
           <Button
             asChild
-            className="relative flex items-center gap-2 rounded-xl bg-primary px-4 py-2 font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-95 sm:px-5"
+            className="bg-primary text-primary-foreground relative flex items-center gap-2 rounded-xl px-4 py-2 font-semibold transition-all duration-200 hover:opacity-90 active:scale-95 sm:px-5"
           >
             <Link href="/cart" className="flex items-center gap-2">
               <ShoppingCart className="h-5 w-5" />

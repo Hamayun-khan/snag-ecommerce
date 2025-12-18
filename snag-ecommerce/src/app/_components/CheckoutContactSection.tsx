@@ -14,11 +14,14 @@ interface CheckoutValues {
 }
 
 export function CheckoutContactSection() {
-  const { register, formState: { errors } } = useFormContext<CheckoutValues>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<CheckoutValues>();
 
   return (
-    <div className="rounded-2xl border border-border/50 bg-card p-6 sm:p-8">
-      <h2 className="mb-6 text-2xl font-bold text-foreground">
+    <div className="border-border/50 bg-card rounded-2xl border p-6 sm:p-8">
+      <h2 className="text-foreground mb-6 text-2xl font-bold">
         Contact Information
       </h2>
 

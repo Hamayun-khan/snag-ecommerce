@@ -31,7 +31,6 @@ export default function CheckoutPage() {
   const { items, getTotalPrice } = useCartStore();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const createCheckout = api.order.createCheckoutSession.useMutation({
     onSuccess: (data) => {
       if (data.url) {
@@ -64,14 +63,14 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-secondary/30 px-4">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-          <ShoppingCart className="h-10 w-10 text-muted-foreground" />
+      <div className="bg-secondary/30 flex min-h-[70vh] flex-col items-center justify-center px-4">
+        <div className="bg-muted mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+          <ShoppingCart className="text-muted-foreground h-10 w-10" />
         </div>
-        <h2 className="mb-2 text-3xl font-bold text-foreground">
+        <h2 className="text-foreground mb-2 text-3xl font-bold">
           Your cart is empty
         </h2>
-        <p className="mb-8 text-muted-foreground">
+        <p className="text-muted-foreground mb-8">
           Add items to your cart before checking out
         </p>
         <Button asChild className="btn-primary">
@@ -100,28 +99,28 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8 sm:py-12">
+    <div className="bg-background min-h-screen px-4 py-8 sm:py-12">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <Link
           href="/cart"
-          className="mb-8 inline-flex items-center gap-2 text-primary transition-colors hover:opacity-80"
+          className="text-primary mb-8 inline-flex items-center gap-2 transition-colors hover:opacity-80"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Cart
         </Link>
 
-        <h1 className="mb-8 text-4xl font-bold text-foreground">Checkout</h1>
+        <h1 className="text-foreground mb-8 text-4xl font-bold">Checkout</h1>
 
         {/* Main Grid */}
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Checkout Form */}
           {isLoading || createCheckout.isPending ? (
-                        <div className="space-y-6 lg:col-span-2">
-                                      <CheckoutFormSkeleton />
-                                                  </div>
-                                                            ) : (
-                                                                        <div className="space-y-6 lg:col-span-2">
+            <div className="space-y-6 lg:col-span-2">
+              <CheckoutFormSkeleton />
+            </div>
+          ) : (
+            <div className="space-y-6 lg:col-span-2">
               <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(handleSubmit)}>
                   <CheckoutContactSection />
@@ -129,7 +128,9 @@ export default function CheckoutPage() {
                     <CheckoutShippingSection />
                   </div>
                   <div className="mt-6">
-                    <CheckoutSubmitButton isLoading={isLoading || createCheckout.isPending} />
+                    <CheckoutSubmitButton
+                      isLoading={isLoading || createCheckout.isPending}
+                    />
                   </div>
                 </form>
               </FormProvider>

@@ -14,10 +14,10 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group flex flex-col rounded-2xl border border-border/50 bg-card p-0 transition-all duration-300 hover:border-border hover:shadow-lg"
+      className="group border-border/50 bg-card hover:border-border flex flex-col rounded-2xl border p-0 transition-all duration-300 hover:shadow-lg"
     >
       {/* Image Container */}
-      <div className="relative h-56 w-full overflow-hidden rounded-t-2xl bg-secondary">
+      <div className="bg-secondary relative h-56 w-full overflow-hidden rounded-t-2xl">
         <Image
           src={product.imageUrl}
           alt={product.name}
@@ -27,7 +27,7 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
           loading="lazy"
         />
         {product.stock < 5 && product.inStock && (
-          <div className="absolute right-4 top-4 rounded-lg bg-warning px-3 py-1 text-xs font-semibold text-warning-foreground">
+          <div className="bg-warning text-warning-foreground absolute top-4 right-4 rounded-lg px-3 py-1 text-xs font-semibold">
             Only {product.stock} left
           </div>
         )}
@@ -37,10 +37,10 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-1 flex-col justify-between p-5">
         {/* Product Info */}
         <div className="flex-1">
-          <h3 className="mb-2 line-clamp-2 font-semibold text-foreground group-hover:text-primary transition-colors">
+          <h3 className="text-foreground group-hover:text-primary mb-2 line-clamp-2 font-semibold transition-colors">
             {product.name}
           </h3>
-          <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm">
             {product.description}
           </p>
         </div>
@@ -48,10 +48,9 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
         {/* Footer */}
         <div className="flex items-end justify-between gap-3">
           <div>
-            <p className="text-2xl font-bold text-primary">
+            <p className="text-primary text-2xl font-bold">
               ${product.price.toFixed(2)}
             </p>
-          
           </div>
           <div onClick={(e) => e.preventDefault()}>
             <QuickAddButton product={product} />
@@ -72,18 +71,18 @@ export function ProductGrid({ products }: ProductGridProps) {
       <div className="container mx-auto">
         <div className="mb-12 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
+            <h2 className="text-foreground text-3xl font-bold sm:text-4xl">
               Featured Products
             </h2>
-            <p className="mt-2 text-muted-foreground">
+            <p className="text-muted-foreground mt-2">
               {products.length} items available
             </p>
           </div>
         </div>
 
         {products.length === 0 ? (
-          <div className="flex min-h-[400px] items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/30">
-            <p className="text-center text-muted-foreground">
+          <div className="border-border bg-secondary/30 flex min-h-[400px] items-center justify-center rounded-2xl border border-dashed">
+            <p className="text-muted-foreground text-center">
               No products available yet
             </p>
           </div>

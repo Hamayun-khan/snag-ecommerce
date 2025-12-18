@@ -20,12 +20,12 @@ export default async function ProductPage({
   }
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="bg-background min-h-screen">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         {/* Back Button */}
         <Link
           href="/"
-          className="mb-8 inline-flex items-center gap-2 text-primary transition-colors hover:opacity-80"
+          className="text-primary mb-8 inline-flex items-center gap-2 transition-colors hover:opacity-80"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Products
@@ -35,7 +35,7 @@ export default async function ProductPage({
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Image Section */}
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-border/50 bg-secondary">
+            <div className="border-border/50 bg-secondary relative aspect-square overflow-hidden rounded-2xl border">
               <Image
                 src={product.imageUrl}
                 alt={product.name}

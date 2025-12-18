@@ -17,10 +17,12 @@ export default function CartPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-background px-4 py-8 sm:py-12">
+      <div className="bg-background min-h-screen px-4 py-8 sm:py-12">
         <div className="container mx-auto max-w-6xl">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground">Shopping Cart</h1>
+            <h1 className="text-foreground text-4xl font-bold">
+              Shopping Cart
+            </h1>
           </div>
           <div className="grid gap-8 lg:grid-cols-3">
             <CartItemListSkeleton />
@@ -35,15 +37,15 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8 sm:py-12">
+    <div className="bg-background min-h-screen px-4 py-8 sm:py-12">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-foreground">
+            <h1 className="text-foreground text-4xl font-bold">
               Shopping Cart
             </h1>
-            <p className="mt-1 text-muted-foreground">
+            <p className="text-muted-foreground mt-1">
               {items.length} item{items.length !== 1 ? "s" : ""} in your cart
             </p>
           </div>

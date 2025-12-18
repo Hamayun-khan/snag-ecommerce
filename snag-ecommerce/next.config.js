@@ -7,26 +7,26 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   experimental: {
-        staleTimes: {
-              dynamic: 0,
-                    static: 0,
-                        },
-                          },
-                            
-                              // Disable caching in headers
-                                async headers() {
-                                    return [
-                                          {
-                                                  source: '/:path*',
-                                                          headers: [
-                                                                    {
-                                                                                key: 'Cache-Control',
-                                                                                            value: 'no-store, must-revalidate',
-                                                                                                      },
-                                                                                                              ],
-                                                                                                                    },
-                                                                                                                        ];
-                                                                                                                          },
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
+  },
+
+  // Disable caching in headers
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     domains: ["images.unsplash.com"],
   },

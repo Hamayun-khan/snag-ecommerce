@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <main className="min-h-screen bg-background">
+      <main className="bg-background min-h-screen">
         <HeroSection />
         <Suspense fallback={<ProductCardListSkeleton />}>
           <ProductGrid products={products} />

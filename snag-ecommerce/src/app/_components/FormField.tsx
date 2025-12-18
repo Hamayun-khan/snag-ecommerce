@@ -34,7 +34,7 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div>
-      <Label htmlFor={id} className="block font-semibold text-foreground">
+      <Label htmlFor={id} className="text-foreground block font-semibold">
         {label}
       </Label>
       <Input
@@ -42,10 +42,10 @@ export function FormField({
         type={type}
         {...register(id)}
         placeholder={placeholder}
-        className="mt-2 rounded-lg border border-border bg-input text-foreground placeholder-muted-foreground"
+        className="border-border bg-input text-foreground placeholder-muted-foreground mt-2 rounded-lg border"
       />
       {error && (
-        <p className="mt-2 flex items-center gap-1 text-sm text-destructive">
+        <p className="text-destructive mt-2 flex items-center gap-1 text-sm">
           <span>⚠</span>
           {error.message}
         </p>
