@@ -27,6 +27,22 @@ model Product {
   @@index([inStock])
 }
 
+model User {
+  id               String   @id // This will be Clerk's userId
+  email            String   @unique
+  firstName        String?
+  lastName         String?
+  stripeCustomerId String?  @unique // Link to Stripe customer
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relationships
+  orders Order[]
+
+  @@index([email])
+  @@index([stripeCustomerId])
+}
+
 model Order {
   id              String @id @default(cuid())
   email           String
@@ -49,6 +65,9 @@ model Order {
   updatedAt DateTime  @updatedAt
   paidAt    DateTime? // When payment completed
 
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
   // Relationships
   items OrderItem[]
 
@@ -58,6 +77,7 @@ model Order {
   @@index([createdAt])
   @@index([stripeSessionId])
   @@index([stripePaymentId])
+  @@index([userId])
 }
 
 model OrderItem {

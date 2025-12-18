@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import { ShoppingCart, Package } from "lucide-react";
+import { ShoppingCart, Package, User } from "lucide-react";
 import { memo, useEffect, useState } from "react";
 import { useCartStore } from "~/lib/store/cartStore";
+import { SignedIn, UserButton, SignedOut, SignInButton } from "@clerk/nextjs";
 
 const CartBadge = memo(function CartBadge() {
   const [mounted, setMounted] = useState(false);
@@ -23,6 +24,7 @@ const CartBadge = memo(function CartBadge() {
 });
 
 export function Navbar() {
+
   return (
     <nav className="border-border/40 bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6">
@@ -43,6 +45,12 @@ export function Navbar() {
             <Link href="/">Shop</Link>
           </Button>
 
+          <SignedIn>
+                        <Button asChild variant="ghost" className="text-foreground">
+                                      <Link href="/orders">My Orders</Link>
+                                                  </Button>
+                                                            </SignedIn>
+
           <Button
             asChild
             className="bg-primary text-primary-foreground relative flex items-center gap-2 rounded-xl px-4 py-2 font-semibold transition-all duration-200 hover:opacity-90 active:scale-95 sm:px-5"
@@ -53,6 +61,21 @@ export function Navbar() {
               <CartBadge />
             </Link>
           </Button>
+
+{/* Auth Buttons */}
+          <SignedOut>
+                      <SignInButton mode="modal">
+                                    <Button variant="ghost" size="sm">
+                                                    <User className="mr-2 h-4 w-4" />
+                                                                    Sign In
+                                                                                  </Button>
+                                                                                              </SignInButton>
+                                                                                                        </SignedOut>
+
+                                                                                                                  <SignedIn>
+                                                                                                                              <UserButton afterSignOutUrl="/" />
+                                                                                                                                        </SignedIn>
+
         </div>
       </div>
     </nav>
